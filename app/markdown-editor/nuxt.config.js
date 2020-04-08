@@ -1,6 +1,6 @@
-
 export default {
   mode: 'universal',
+
   /*
   ** Headers of the page
   */
@@ -15,22 +15,26 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+
   /*
   ** Customize the progress-bar color
   */
   loading: { color: '#fff' },
+
   /*
   ** Global CSS
   */
   css: [
     'element-ui/lib/theme-chalk/index.css'
   ],
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '@/plugins/element-ui'
   ],
+
   /*
   ** Nuxt.js dev-modules
   */
@@ -38,31 +42,38 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module'
   ],
+
   /*
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    '@nuxtjs/axios', // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/pwa',
-    // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv', // Doc: https://github.com/nuxt-community/dotenv-module
   ],
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
   },
+
   /*
   ** Build configuration
   */
   build: {
     transpile: [/^element-ui/],
+
     /*
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+      config.module.rules.push({
+        test: /\.md$/,
+        loader: 'raw-loader',
+        exclude: /(node_modules)/,
+      });
     }
-  }
+  },
 }
