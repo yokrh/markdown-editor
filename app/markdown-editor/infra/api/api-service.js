@@ -1,9 +1,12 @@
+import Session from '../Session'
+import User from '../User'
+import Note from '../Note'
 import { API, HTTP_RESPONSE_STATUS_OK } from './API'
 
 export default class ApiService {
-  constructor(vueContext) {
-    this.axios = vueContext.$axios || null
-    this.message = vueContext.$message || null
+  constructor(params) {
+    this.axios = params.$axios || null
+    this.message = params.$message || null
   }
 
   /**
@@ -62,14 +65,19 @@ export default class ApiService {
 
     const { uid } = params
     const reqParams = { uid }
-    return this.get(path, reqParams).catch((msg) => { throw msg })
+    return this.get(path, reqParams)
+      .then(notes => notes.map(n => new Note(n)))
+      .catch((msg) => { throw msg })
   }
 
   /**
    * Login.
    */
   login(params) {
-    return { session: { id: 'abcd12345678' }, user: { id: 123, name: 'username1'} } // eslint-disable-line
+    return {
+      session: new Session({ id: 'abcd12345678' }),
+      user: new User({ id: 123, name: 'username1' }),
+    }
     // const path = API.AUTH_LOGIN
 
     // const { loginInfo } = params
@@ -81,7 +89,9 @@ export default class ApiService {
    * Logout.
    */
   logout(params) {
-    return { succeeded: true } // eslint-disable-line
+    return {
+      succeeded: true,
+    }
     // const path = API.AUTH_LOGOUT
 
     // const { user, session } = params

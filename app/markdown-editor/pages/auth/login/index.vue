@@ -1,6 +1,7 @@
 <template>
-  <div class="login">
+  <div class="login-page">
     <el-button
+      class="login"
       type="primary"
       @click="login"
     >
@@ -26,7 +27,9 @@ export default {
       'userLogin',
     ]),
     async login() {
-      await this.userLogin()
+      const loginInfo = null
+      const { $axios, $message } = this
+      await this.userLogin({ loginInfo, $axios, $message })
 
       if (this.uid) {
         this.$router.push(`/user/${this.uid}`)
@@ -39,9 +42,13 @@ export default {
 </script>
 
 <style scoped>
-.login {
+.login-page {
+  min-height: 100vh;
   padding-top: 20px;
   display: flex;
   justify-content: center;
+}
+.login {
+  height: 40px;
 }
 </style>

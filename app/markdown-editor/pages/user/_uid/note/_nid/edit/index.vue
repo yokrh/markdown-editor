@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Dialog from '../../../../../../components/Dialog.vue'
 import MarkdownPreview from '../../../../../../components/MarkdownPreview.vue'
 import mock from './mock/SampleMarkdown.md'
@@ -102,17 +103,27 @@ export default {
   },
   data() {
     return {
+      // タイトル
       title: '',
+      // 説明
       description: '',
+      // タグ
       tags: [],
 
+      // タグ追加を表示するか否か
       isShowNewTagInput: false,
+      // 新タグ名
       tmpNewTagName: '',
 
+      // 編集内容
       markdownInput: '',
 
+      // 保存キャンセルダイアログを表示するか否か
       cancelDialogVisible: false,
     }
+  },
+  computed: {
+    ...mapGetters('user', ['uid']),
   },
   mounted() {
     this.markdownInput = mock
@@ -136,14 +147,15 @@ export default {
      * 保存せず終了。
      */
     cancel() {
-      this.$message.info('canceled')
+      this.$router.push(`/user/${this.uid}`)
     },
 
     /**
-     * 内容の保存。
+     * 保存。
      */
     save() {
-      this.$message.success('saved')
+      this.$message.success('保存しました')
+      this.$router.push(`/user/${this.uid}`)
     },
   },
 }
@@ -151,8 +163,8 @@ export default {
 
 <style scoped>
 .edit-page {
+  min-height: 100vh;
   padding: 0 2%;
-  /* overflow: hidden; */
 }
 .overview {
   margin-left: calc(-50vw + 50%);

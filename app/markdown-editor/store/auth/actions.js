@@ -6,8 +6,8 @@ const actions = {
   /**
    * ログイン。
    */
-  async userLogin({ state, commit, dispatch, rootState, $axios, $message }, payload = {}) { // eslint-disable-line no-unused-vars
-    const { loginInfo } = payload
+  async userLogin({ state, commit, dispatch, rootState }, payload = {}) { // eslint-disable-line no-unused-vars
+    const { loginInfo, $axios, $message } = payload
 
     // ログイン
     const res = await new ApiService({ $axios, $message }).login({ loginInfo })
@@ -19,14 +19,18 @@ const actions = {
 
       // セッション情報のクッキー保存
       Cookie.set(COOKIE.KEY.SESSION_ID, `${session.id}`, { expires: COOKIE.EXPIRES })
+
+      if ($message) {
+        $message.success('ログインしました')
+      }
     }
   },
 
   /**
    * ログアウト。
    */
-  async userLogout({ state, commit, dispatch, rootState, $axios, $message }, payload = {}) { // eslint-disable-line no-unused-vars
-    const { user, session } = payload
+  async userLogout({ state, commit, dispatch, rootState }, payload = {}) { // eslint-disable-line no-unused-vars
+    const { user, session, $axios, $message } = payload
 
     // ログアウト
     const res = await new ApiService({ $axios, $message }).logout({ user, session })
@@ -38,6 +42,10 @@ const actions = {
 
       // セッション情報のクッキー削除
       Cookie.remove(COOKIE.KEY.SESSION_ID)
+
+      if ($message) {
+        $message.success('ログアウトしました')
+      }
     }
   },
 }

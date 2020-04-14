@@ -7,20 +7,13 @@
       </nuxt-link>
     </div>
     <div class="mypage">
-      <div v-if="uid">{{ uid }}</div>
-
-      <nuxt-link
-        v-if="uid"
-        :to="`/user/${uid}`"
-      >
-        マイページ
-      </nuxt-link>
-      <nuxt-link
-        v-else
-        to="/auth/login"
-      >
-        マイページ
-      </nuxt-link>
+      <template v-if="isLoggedIn && uid">
+        <div class="user">{{ uid }}</div>
+        <nuxt-link :to="`/user/${uid}`">マイページ</nuxt-link>
+      </template>
+      <template v-else>
+        <nuxt-link to="/auth/login">ログイン</nuxt-link>
+      </template>
     </div>
   </div>
 </template>
@@ -30,19 +23,23 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters('user', ['uid']),
+    ...mapGetters('user', ['isLoggedIn', 'uid']),
   },
 }
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 #header {
   padding: 0 20px;
   height: 54px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #aabbee;
+  background-color: aliceblue;
+  box-shadow: 0px 1px 4px #aabbee;
 }
 .home {
   font-size: 16px;
@@ -50,7 +47,7 @@ export default {
 .mypage {
   font-size: 16px;
 }
-a {
-  text-decoration: none;
+.user {
+  display: inline-block;
 }
 </style>

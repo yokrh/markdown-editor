@@ -12,7 +12,8 @@ export const actions = {
     const sid = Cookie.get(COOKIE.KEY.SESSION_ID)
     if (sid) {
       const loginInfo = { sid }
-      dispatch('auth/userLogin', { loginInfo })
+      const { $axios } = payload
+      dispatch('auth/userLogin', { loginInfo, $axios })
     }
   },
 }
