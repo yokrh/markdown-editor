@@ -1,13 +1,14 @@
 <template>
-  <div class="user-page">
-    <nuxt-link to="/user/0/edit">
-      Edit
-    </nuxt-link>
+  <div>
+    Not found.
   </div>
 </template>
 
 <script>
 export default {
+  mounted() {
+    this.$router.push('/')
+  },
 }
 </script>
 

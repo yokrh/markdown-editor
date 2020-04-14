@@ -90,8 +90,8 @@
 </template>
 
 <script>
-import Dialog from '../../../../components/Dialog.vue'
-import MarkdownPreview from '../../../../components/MarkdownPreview.vue'
+import Dialog from '../../../../../../components/Dialog.vue'
+import MarkdownPreview from '../../../../../../components/MarkdownPreview.vue'
 import mock from './mock/SampleMarkdown.md'
 import Tag from './Tag'
 
@@ -136,14 +136,14 @@ export default {
      * 保存せず終了。
      */
     cancel() {
-      console.log('canceled')
+      this.$message.info('canceled')
     },
 
     /**
      * 内容の保存。
      */
     save() {
-      console.log('saved')
+      this.$message.success('saved')
     },
   },
 }

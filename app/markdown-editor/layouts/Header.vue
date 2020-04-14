@@ -7,7 +7,18 @@
       </nuxt-link>
     </div>
     <div class="mypage">
-      <nuxt-link to="/user/0/">
+      <div v-if="uid">{{ uid }}</div>
+
+      <nuxt-link
+        v-if="uid"
+        :to="`/user/${uid}`"
+      >
+        マイページ
+      </nuxt-link>
+      <nuxt-link
+        v-else
+        to="/auth/login"
+      >
         マイページ
       </nuxt-link>
     </div>
@@ -15,7 +26,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters('user', ['uid']),
+  },
 }
 </script>
 
