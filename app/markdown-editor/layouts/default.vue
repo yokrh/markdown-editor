@@ -19,7 +19,14 @@ export default {
 </script>
 
 <style>
+/** nuxt */
 div#__nuxt, #__layout, #__layout>div, #app { min-height: 100vh; }
+.el-message {
+  width: 90vw;
+  min-width: initial;
+}
+
+/** common */
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -30,6 +37,9 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+dl, ul, ol {
+  font-size: 0;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/
@@ -78,9 +88,5 @@ q:before, q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-dl, ul, ol {
-  font-size: 0;
 }
 </style>

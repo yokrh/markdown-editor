@@ -16,13 +16,13 @@
   font-size: 32px;
 }
 .page-description {
-  margin-top: 20px;
-  font-size: 24px;
+  margin-top: 32px;
+  font-size: 20px;
 }
 
 @media screen and (max-width: 640px) {
   .page-title {
-    font-size: 24px;
+    font-size: 28px;
   }
   .page-description {
     font-size: 16px;

@@ -1,3 +1,7 @@
+/**
+ * セッション。
+ * 認証用。
+ */
 class Session {
   constructor({
     id,

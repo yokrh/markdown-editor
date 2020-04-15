@@ -1,5 +1,6 @@
 <template>
-  <div class="markdown" v-html="html" />
+  <!-- プレビュー -->
+  <div class="markdown-preview" v-html="html" />
 </template>
 
 <script>
@@ -28,64 +29,95 @@ export default {
 </script>
 
 <style>
-/* Markdown style should be not scoped */
+/* Markdown style cannot not be applied with scoped */
 
-.markdown {
+.markdown-preview {
+  margin-left: 2%;
+  width: 96%;
   word-break: break-all;
 }
 /** # hoge */
-.markdown h1 {
+.markdown-preview h1 {
   margin: 32px 0;
   font-size: 32px;
 }
 /** ## hoge */
-.markdown h2 {
+.markdown-preview h2 {
   margin: 32px 0 20px 0;
   padding: 8px 0;
   border-bottom: 1px solid #ddd;
   font-size: 28px;
 }
 /** hoge */
-.markdown p {
+.markdown-preview p {
   margin: 8px 0;
 }
+/** *hoge* */
+.markdown-preview p em {
+  font-style: italic;
+}
+/** **hoge** */
+.markdown-preview p strong {
+  font-weight: bold;
+}
+/** ~~hoge~~ */
+.markdown-preview p s {
+  text-decoration: line-through;
+}
 /** `hoge` */
-.markdown p > code {
+.markdown-preview p > code {
   background-color: #eee;
   padding: 2px 8px;
 }
 /** ```hoge``` */
-.markdown pre {
+.markdown-preview pre {
   background-color: #344;
   color: #eee;
   padding: 16px;
   overflow-x: scroll;
 }
-
 /** * hoge */
-.markdown ul {
+.markdown-preview ul {
   padding-left: 40px;
   font-size: 100%;
   list-style: disc;
 }
-.markdown ul ul {
+.markdown-preview ul ul {
   list-style: circle;
 }
-
 /** 1. hoge */
-.markdown ol {
+.markdown-preview ol {
   padding-left: 40px;
   font-size: 100%;
   list-style: decimal;
 }
+/** > hoge */
+.markdown-preview blockquote {
+  border-left: 4px solid #ccc;
+  padding: 2px 0 2px 8px;
+}
+/** | hoge | fuga | piyo | */
+.markdown-preview table {
+  margin: 12px 0;
+}
+.markdown-preview table th {
+  padding: 8px;
+  font-weight: bold;
+}
+.markdown-preview table td {
+  padding: 8px 16px;
+}
+.markdown-preview table th + th, .markdown-preview table td + td {
+  border-left: 1px solid #bebebe;
+}
 
 @media screen and (max-width: 640px) {
-  .markdown h2 {
-    width: 104%;
+  .markdown-preview h2 {
+    width: 100%;
     margin: 32px 0 20px -2%;
     padding: 8px 2%;
   }
-  .markdown pre {
+  .markdown-preview pre {
     padding: 16px 6%;
   }
 }

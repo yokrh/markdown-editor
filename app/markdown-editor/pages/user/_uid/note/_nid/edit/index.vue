@@ -2,61 +2,20 @@
   <div class="edit-page">
     <!-- 概要 -->
     <div class="section-title">概要</div>
-    <div class="overview">
-      <div class="overview-label">タイトル</div>
-      <el-input
-        class="overview-content"
-        v-model="title"
-        clearable
-      />
-
-      <div class="overview-label">概要</div>
-      <el-input
-        class="overview-content"
-        type="textarea"
-        v-model="description"
-      />
-
-      <div class="overview-label">タグ</div>
-      <div class="overview-content">
-        <div
-          class="tag"
-          v-for="tag in tags"
-          :key="tag.id"
-        >
-          {{ tag.name }}
-        </div>
-        <el-input
-          v-if="isShowNewTagInput"
-          class="new-tag"
-          v-model="tmpNewTagName"
-          @blur="addTag(tmpNewTagName)"
-          @keyup.native.enter="addTag(tmpNewTagName)"
-        />
-        <i
-          v-else
-          class="add-tag el-icon-circle-plus-outline"
-          @click="isShowNewTagInput = true"
-        />
-      </div>
-    </div>
+    <MarkdownOverview
+      :title="title"
+      :description="description"
+      :tags="tags"
+      @update="updateOverview"
+    />
 
     <!-- 編集 -->
     <div class="section-title">編集</div>
-    <div class="input-container">
-      <el-input
-        type="textarea"
-        :autosize="{ minRows: 8, maxRows: 16 }"
-        placeholder="Please input"
-        v-model="markdownInput"
-      />
-    </div>
+    <MarkdownEditor v-model="markdownInput" />
 
     <!-- プレビュー -->
     <div class="section-title">プレビュー</div>
-    <div class="preview-container">
-      <MarkdownPreview :md="markdownInput" />
-    </div>
+    <MarkdownPreview :md="markdownInput" />
 
     <!-- アクション -->
     <div class="action-container">
@@ -83,8 +42,8 @@
       description="保存せず戻りますか？"
       yes="はい"
       no="いいえ"
-      @confirm="cancelDialogVisible = false || cancel()"
-      @cancel="cancelDialogVisible = false"
+      @yes="cancelDialogVisible = false || cancel()"
+      @no="cancelDialogVisible = false"
     />
   </div>
 </template>
@@ -92,13 +51,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import Dialog from '../../../../../../components/Dialog.vue'
-import MarkdownPreview from '../../../../../../components/MarkdownPreview.vue'
+import MarkdownOverview from './components/MarkdownOverview.vue'
+import MarkdownEditor from './components/MarkdownEditor.vue'
+import MarkdownPreview from './components/MarkdownPreview.vue'
 import mock from './mock/SampleMarkdown.md'
-import Tag from './Tag'
 
 export default {
   components: {
     Dialog,
+    MarkdownOverview,
+    MarkdownEditor,
     MarkdownPreview,
   },
   data() {
@@ -109,11 +71,6 @@ export default {
       description: '',
       // タグ
       tags: [],
-
-      // タグ追加を表示するか否か
-      isShowNewTagInput: false,
-      // 新タグ名
-      tmpNewTagName: '',
 
       // 編集内容
       markdownInput: '',
@@ -130,17 +87,12 @@ export default {
   },
   methods: {
     /**
-     * タグの追加。
+     * 概要脳同期更新。
      */
-    addTag(name) {
-      if (name) {
-        const id = Date.now()
-        const tag = new Tag(id, name)
-        this.tags.push(tag)
-      }
-
-      this.isShowNewTagInput = false
-      this.tmpNewTagName = ''
+    updateOverview(newProps) {
+      this.title = newProps.title
+      this.description = newProps.description
+      this.tags = newProps.tags
     },
 
     /**
@@ -154,7 +106,7 @@ export default {
      * 保存。
      */
     save() {
-      this.$message.success('保存しました')
+      this.$message.success({ message: '保存しました', duration: 1000 })
       this.$router.push(`/user/${this.uid}`)
     },
   },
@@ -166,48 +118,8 @@ export default {
   min-height: 100vh;
   padding: 0 2%;
 }
-.overview {
-  margin-left: calc(-50vw + 50%);
-  padding: 12px;
-  width: calc(100vw - 24px);
-  background-color: #fefefe;
-  box-shadow: 0 2px 2px #eee;
-}
-.overview-label {
-  margin: 12px 0;
-  font-size: 16px;
-  color: #333;
-}
-.overview-content {
-  padding-left: 2%;
-  width: 98%;
-}
-.tag-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.tag {
-  display: inline-block;
-  margin: 0 4px 4px 0;
-  padding: 0 8px;
-  line-height: 32px;
-  word-break: break-all;
-  background-color: #f0ffff;
-  border: 1px solid #eaeeee;
-  border-radius: 2px;
-}
-.new-tag >>> .el-input__inner {
-  height: 32px;
-}
-.add-tag {
-  height: 32px;
-  line-height: 32px;
-  font-size: 16px;
-  margin-left: 8px;
-}
 .section-title {
-  margin: 24px 0;
+  margin: 48px 0 24px 0;
   margin-left: calc(-50vw + 50%);
   padding: 12px;
   width: calc(100vw - 24px);
@@ -218,13 +130,8 @@ export default {
   color: #fff;
   background-color: #333;
 }
-.input-container {
-  margin-left: 4%;
-  width: 92%;
-}
-.preview-container {
-  margin-left: 4%;
-  width: 92%;
+.section-title:first-child {
+  margin-top: 0;
 }
 .action-container {
   margin: 40px 0 40px 2%;

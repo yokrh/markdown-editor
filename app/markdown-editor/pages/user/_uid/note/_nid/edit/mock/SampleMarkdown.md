@@ -7,6 +7,12 @@ It's a sample markdown file.
 fadfadfasfafdaf
 fadfasfdadfafasfdafdaf
 
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
 > Reference
 
 fadfasdf
@@ -101,6 +107,7 @@ alt="IMAGE ALT TEXT HERE" width="240" height="180" /></a>
 
 ## h2 security check
 
+<a href="https://www.google.com" target="_blank" onclick="alert('xss!aaa')">XSS link</a><br>
 <script>alert('xss!')</script>
 ';alert(String.fromCharCode(88,83,83))//';alert(String.fromCharCode(88,83,83))//";
 alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//--

@@ -1,3 +1,6 @@
+/**
+ * ユーザー。
+ */
 class User {
   constructor({
     id,

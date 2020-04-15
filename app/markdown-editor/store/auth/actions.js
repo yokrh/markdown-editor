@@ -21,7 +21,7 @@ const actions = {
       Cookie.set(COOKIE.KEY.SESSION_ID, `${session.id}`, { expires: COOKIE.EXPIRES })
 
       if ($message) {
-        $message.success('ログインしました')
+        $message.success({ message: 'ログインしました', duration: 1000 })
       }
     }
   },
@@ -44,7 +44,7 @@ const actions = {
       Cookie.remove(COOKIE.KEY.SESSION_ID)
 
       if ($message) {
-        $message.success('ログアウトしました')
+        $message.success({ message: 'ログアウトしました', duration: 1000 })
       }
     }
   },
