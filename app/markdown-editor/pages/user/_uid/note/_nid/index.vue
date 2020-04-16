@@ -24,9 +24,9 @@
 
     <!-- 本文 -->
     <slot name="content">
-      <div class="content">
+      <article class="content">
         <MarkdownPreview :md="note.markdown" />
-      </div>
+      </article>
     </slot>
 
     <!-- アクション（編集画面から利用） -->

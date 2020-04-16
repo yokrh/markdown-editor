@@ -44,7 +44,7 @@ export default {
 <style scoped>
 .login-page {
   min-height: 100vh;
-  padding-top: 20px;
+  padding-top: 40px;
   display: flex;
   justify-content: center;
 }

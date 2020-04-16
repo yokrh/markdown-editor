@@ -3,10 +3,8 @@ import Vue from 'vue'
 
 export default Vue.extend({
   fetch({ store, redirect }) {
-    const uid = store.state.user.uid
-
-    if (uid) {
-      redirect(301, `/user/${uid}`)
+    if (store && store.state && store.state.user && store.state.user.uid) {
+      redirect(301, `/user/${store.state.user.uid}`)
       return
     }
 

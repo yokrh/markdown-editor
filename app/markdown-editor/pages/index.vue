@@ -8,7 +8,6 @@
 <style scoped>
 .home-page {
   min-height: 100vh;
-  padding: 0 2%;
   text-align: center;
 }
 .page-title {

@@ -24,6 +24,7 @@
       >
         <el-tooltip content="画像（大）"><i class="el-icon-picture-outline" /></el-tooltip>
       </div>
+      <!--
       <div
         class="helper-button"
         @click="showHelperDialog(MARKDOWN.HELPER.IMAGE_MEDIUM)"
@@ -36,7 +37,9 @@
       >
         <el-tooltip content="画像（小）"><i class="el-icon-picture-outline" /></el-tooltip>
       </div>
-      <!-- <div
+       -->
+      <!--
+      <div
         class="helper-button"
         @click="showHelperDialog(MARKDOWN.HELPER.HEADER_1)"
       >
@@ -53,7 +56,8 @@
         @click="showHelperDialog(MARKDOWN.HELPER.HEADER_3)"
       >
         <el-tooltip content="ヘッダ（小）"><i class="el-icon-document-remove" /></el-tooltip>
-      </div> -->
+      </div>
+      -->
       <div
         class="helper-button"
         @click="updateMarkdownWithHelper('\n---\n')"
@@ -105,16 +109,25 @@
       v-if="displayedDialogName === MARKDOWN.HELPER.LINK"
       @close="updateMarkdownWithHelper"
     />
+    <ImageDialog
+      v-if="displayedDialogName === MARKDOWN.HELPER.IMAGE_LARGE ||
+        displayedDialogName === MARKDOWN.HELPER.IMAGE_MEDIUM ||
+        displayedDialogName === MARKDOWN.HELPER.IMAGE_SMALL"
+      :type="displayedDialogName"
+      @close="updateMarkdownWithHelper"
+    />
   </div>
 </template>
 
 <script>
 import MARKDOWN from './Markdown'
 import LinkDialog from './components/LinkDialog.vue'
+import ImageDialog from './components/ImageDialog.vue'
 
 export default {
   components: {
     LinkDialog,
+    ImageDialog,
   },
   props: {
     // for v-model

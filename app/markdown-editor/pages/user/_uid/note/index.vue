@@ -2,8 +2,12 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  fetch({ redirect, from }) {
-    redirect(301, `/user/${from.params.uid}/`)
+  fetch({ redirect, params }) {
+    if (params && params.uid) {
+      redirect(301, `/user/${params.uid}/`)
+      return
+    }
+    redirect(301, '/')
   },
 })
 </script>

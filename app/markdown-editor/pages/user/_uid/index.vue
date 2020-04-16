@@ -26,12 +26,11 @@
           :key="note.id"
           :to="getNoteLink(note)"
         >
+          <div class="note-title">{{ note.title }}</div>
+          <div class="note-description">{{ note.description }}</div>
           <div class="note-thumbnail">
             <img :src="note.thumbnail" alt="">
           </div>
-          <div class="note-title">{{ note.title }}</div>
-          <div class="note-description">{{ note.description }}</div>
-
           <div
             v-if="isLoggedIn()"
             class="note-edit"
@@ -148,25 +147,25 @@ a {
 .note {
   position: relative;
   display: block;
-  margin-top: 8px;
+  margin-top: 16px;
   min-height: 48px;
 }
-.note-thumbnail {
-  position: absolute;
-  top: calc(50% - 16px);
-  left: 4px;
-  width: 32px;
-  height: 32px;
-  background-color: lightblue;
-}
 .note-title {
-  margin-left: 48px;
+  margin-left: 64px;
   font-size: 20px;
 }
 .note-description {
-  margin-left: 48px;
+  margin-left: 64px;
   margin-top: 8px;
   font-size: 16px;
+}
+.note-thumbnail {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  width: 48px;
+  height: 48px;
+  background-color: lightblue;
 }
 .note-edit {
   position: absolute;
@@ -178,7 +177,7 @@ a {
 @media screen and (max-width: 640px) {
   .user-page {
     flex-direction: column;
-    padding: 0 2%;
+    padding: 0 4%;
   }
   .side-menu {
     order: 2;

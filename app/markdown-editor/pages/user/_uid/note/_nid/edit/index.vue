@@ -8,6 +8,7 @@
           :title="note.title"
           :description="note.description"
           :tags="note.tags"
+          @update="updateOverview"
         />
       </div>
 

@@ -1,5 +1,6 @@
 <template>
   <Dialog
+    class="link-dialog"
     :title="title"
     :yes="yes"
     :no="no"
@@ -7,16 +8,16 @@
     @no="cancel"
   >
     <div slot="default">
-      <!-- 新規タグ入力欄 -->
+      <!-- リンク表示文字列 -->
       <el-input
         v-model="linkName"
         placeholder="Exampleさんのサイト"
       />
-      <!-- 新規タグ入力欄 -->
+      <!-- リンクURL -->
       <el-input
         v-model="linkUrl"
-        style="margin-top:8px;"
         placeholder="https://www.example.com/"
+        style="margin-top:8px;"
       />
     </div>
   </Dialog>
@@ -31,17 +32,28 @@ export default {
   },
   data() {
     return {
+      // ダイアログ設定
       title: 'リンクの追加',
       yes: '追加',
       no: 'キャンセル',
+
+      // リンク表示文字列
       linkName: '',
+      // リンクURL
       linkUrl: '',
     }
   },
   methods: {
+    /**
+     * 閉じる。
+     */
     cancel() {
       this.$emit('close')
     },
+
+    /**
+     * 更新。
+     */
     update() {
       if (!this.validate()) {
         return
@@ -50,9 +62,13 @@ export default {
       const additionalString = `<a href="${this.linkUrl}" target="_blank" rel="noopener">${this.linkName}</a>`
       this.$emit('close', additionalString)
     },
+
+    /**
+     * 更新前のバリデーション。
+     */
     validate() {
       if (!this.linkUrl.startsWith('https://')) {
-        this.$message('URLが不正またはhttpsではありません')
+        this.$message.error('URLが不正またはhttpsではありません')
         return false
       }
 
