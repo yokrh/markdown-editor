@@ -31,7 +31,13 @@
           </div>
           <div class="note-title">{{ note.title }}</div>
           <div class="note-description">{{ note.description }}</div>
-          <div class="note-edit"><i class="el-icon-edit-outline" /></div>
+
+          <div
+            v-if="isLoggedIn()"
+            class="note-edit"
+          >
+            <i class="el-icon-edit-outline" />
+          </div>
         </nuxt-link>
       </div>
     </div>

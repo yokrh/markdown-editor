@@ -94,7 +94,7 @@ export default {
   padding: 0 4%;
 }
 .note-title {
-  margin-top: 12px;
+  margin-top: 24px;
   font-size: 36px;
   font-weight: bold;
   color: #333;

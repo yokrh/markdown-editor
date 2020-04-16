@@ -46,8 +46,9 @@ export default {
   border-bottom: 1px solid #ddd;
   font-size: 24px;
 }
-/** ## hoge */
+/** ### hoge */
 .markdown-preview h3 {
+  margin: 24px 0 12px 0;
   font-size: 20px;
 }
 /** hoge */
@@ -87,11 +88,27 @@ export default {
 .markdown-preview ul ul {
   list-style: circle;
 }
+.markdown-preview li > br {
+  content: '';
+  display: block;
+  margin-bottom: 8px;
+}
 /** 1. hoge */
 .markdown-preview ol {
   padding-left: 40px;
   font-size: 100%;
   list-style: decimal;
+}
+.markdown-preview li {
+  margin-bottom: 8px;
+}
+.markdown-preview li > p {
+  margin: 8px;
+}
+.markdown-preview li > p > br {
+  content: '';
+  display: block;
+  margin-bottom: 8px;
 }
 /** > hoge */
 .markdown-preview blockquote {
