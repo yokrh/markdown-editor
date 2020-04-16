@@ -22,7 +22,7 @@ export default {
 /** nuxt */
 div#__nuxt, #__layout, #__layout>div, #app { min-height: 100vh; }
 .el-message {
-  width: 90vw;
+  width: 300px;
   min-width: initial;
 }
 

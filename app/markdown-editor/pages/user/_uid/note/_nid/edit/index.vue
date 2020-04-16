@@ -1,39 +1,48 @@
 <template>
-  <div class="edit-page">
-    <!-- 概要 -->
-    <div class="section-title">概要</div>
-    <MarkdownOverview
-      :title="title"
-      :description="description"
-      :tags="tags"
-      @update="updateOverview"
-    />
+  <div class="edit-page" v-if="note">
+    <NotePage>
+      <!-- 概要 -->
+      <div slot="overview">
+        <div class="section-title overview-title">概要</div>
+        <MarkdownOverview
+          :title="note.title"
+          :description="note.description"
+          :tags="note.tags"
+        />
+      </div>
 
-    <!-- 編集 -->
-    <div class="section-title">編集</div>
-    <MarkdownEditor v-model="markdownInput" />
+      <!-- 編集 -->
+      <div slot="edit">
+        <div class="section-title">編集</div>
+        <MarkdownEditor v-model="note.markdown" />
+      </div>
 
-    <!-- プレビュー -->
-    <div class="section-title">プレビュー</div>
-    <MarkdownPreview :md="markdownInput" />
+      <!-- 本文 -->
+      <div slot="content">
+        <div class="section-title">プレビュー</div>
+        <MarkdownPreview :md="note.markdown" />
+      </div>
 
-    <!-- アクション -->
-    <div class="action-container">
-      <el-button
-        class="action"
-        plain
-        @click="cancelDialogVisible = true"
-      >
-        保存しない
-      </el-button>
-      <el-button
-        class="action"
-        type="primary"
-        @click="save"
-      >
-        保存する
-      </el-button>
-    </div>
+      <!-- アクション -->
+      <div slot="action">
+        <div class="action-container">
+          <el-button
+            class="action"
+            plain
+            @click="cancelDialogVisible = true"
+          >
+            保存しない
+          </el-button>
+          <el-button
+            class="action"
+            type="primary"
+            @click="save"
+          >
+            保存する
+          </el-button>
+        </div>
+      </div>
+    </NotePage>
 
     <!-- ダイアログ -->
     <Dialog
@@ -50,49 +59,68 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ApiService from '../../../../../../infra/api/api-service'
+import NotePage from '../index.vue'
 import Dialog from '../../../../../../components/Dialog.vue'
 import MarkdownOverview from './components/MarkdownOverview.vue'
 import MarkdownEditor from './components/MarkdownEditor.vue'
 import MarkdownPreview from './components/MarkdownPreview.vue'
-import mock from './mock/SampleMarkdown.md'
 
 export default {
   components: {
-    Dialog,
+    NotePage,
     MarkdownOverview,
     MarkdownEditor,
     MarkdownPreview,
+    Dialog,
   },
   data() {
     return {
-      // タイトル
-      title: '',
-      // 説明
-      description: '',
-      // タグ
-      tags: [],
+      // API service
+      apiService: null,
 
-      // 編集内容
-      markdownInput: '',
+      // ノート
+      note: null,
 
       // 保存キャンセルダイアログを表示するか否か
       cancelDialogVisible: false,
     }
   },
   computed: {
-    ...mapGetters('user', ['uid']),
+    ...mapGetters('user', ['uid', 'isLoggedIn']),
+  },
+  created() {
+    if (!this.isLoggedIn()) {
+      this.$router.push(`/user/${this.$route.params.uid}/note/${this.$route.params.nid}/`)
+    }
   },
   mounted() {
-    this.markdownInput = mock
+    this.apiService = new ApiService(this)
+    this.fetchNote()
+      .then((res) => {
+        this.note = res
+      })
   },
   methods: {
     /**
-     * 概要脳同期更新。
+     * ノートを取得。
+     */
+    async fetchNote() {
+      const params = {
+        uid: this.$route.params.uid,
+        nid: this.$route.params.nid,
+      }
+      const res = await this.apiService.fetchUserNote(params)
+      return res
+    },
+
+    /**
+     * 概要を同期。
      */
     updateOverview(newProps) {
-      this.title = newProps.title
-      this.description = newProps.description
-      this.tags = newProps.tags
+      this.note.title = newProps.title
+      this.note.description = newProps.description
+      this.note.tags = newProps.tags
     },
 
     /**
@@ -106,6 +134,8 @@ export default {
      * 保存。
      */
     save() {
+      // TODO: save note
+
       this.$message.success({ message: '保存しました', duration: 1000 })
       this.$router.push(`/user/${this.uid}`)
     },
@@ -116,7 +146,6 @@ export default {
 <style scoped>
 .edit-page {
   min-height: 100vh;
-  padding: 0 2%;
 }
 .section-title {
   margin: 48px 0 24px 0;
@@ -130,11 +159,11 @@ export default {
   color: #fff;
   background-color: #333;
 }
-.section-title:first-child {
+.overview-title {
   margin-top: 0;
 }
 .action-container {
-  margin: 40px 0 40px 2%;
+  margin: 40px 0;
 }
 .action {
   margin: 12px 12px 0 0;

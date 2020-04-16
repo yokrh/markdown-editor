@@ -62,29 +62,30 @@
       </div>
       <div
         class="helper-button"
-        @click="updateMarkdownWithHelper(`~~${editorCursorSelection}~~`)"
+        @click="updateMarkdownWithHelper(editorCursorSelection ? `~~${editorCursorSelection}~~` : '')"
       >
         <el-tooltip content="選択部分を打ち消し"><span style="text-decoration:line-through;">S</span></el-tooltip>
       </div>
       <div
         class="helper-button"
-        @click="updateMarkdownWithHelper(`**${editorCursorSelection}**`)"
+        @click="updateMarkdownWithHelper(editorCursorSelection ? `**${editorCursorSelection}**` : '')"
       >
         <el-tooltip content="選択部分を強調"><span style="font-weight:bold; font-size:19px;">B</span></el-tooltip>
       </div>
       <div
         class="helper-button"
-        @click="updateMarkdownWithHelper(`*${editorCursorSelection}*`)"
+        @click="updateMarkdownWithHelper(editorCursorSelection ? `*${editorCursorSelection}*` : '')"
       >
         <el-tooltip content="選択部分をイタリック"><span style="font-style:italic;">I</span></el-tooltip>
       </div>
+      <!--
       <div
         class="helper-button"
         @click="updateMarkdownWithHelper(`> ${editorCursorSelection}`)"
       >
         <el-tooltip content="選択部分を引用"><i class="el-icon-arrow-right" /></el-tooltip>
       </div>
-      <!-- <div
+      <div
         class="helper-button"
         @click="updateMarkdownWithHelper(`* ${editorCursorSelection}`)"
       >
@@ -95,7 +96,8 @@
         @click="updateMarkdownWithHelper(`${editorCursorSelection.split('\n').map((s, i) => `${i+1}. s`).join('\n')}`)"
       >
         <el-tooltip content="選択部分を箇条書き（数字付き）"><span>123</span></el-tooltip>
-      </div> -->
+      </div>
+      -->
     </div>
 
     <!-- ヘルパーのダイアログ -->
@@ -186,12 +188,8 @@ export default {
 </script>
 
 <style scoped>
-.markdown-editor {
-  margin-left: 2%;
-  width: 96%;
-}
 .helper {
-  margin: 12px;
+  margin: 12px 0;
   display: flex;
   flex-wrap: wrap;
 }
@@ -200,6 +198,8 @@ export default {
   width: 32px;
   font-size: 20px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
 }
 .helper-button:hover {
   color: darkcyan;

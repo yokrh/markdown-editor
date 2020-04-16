@@ -30,8 +30,9 @@
         </div>
         <!-- 新規タグ入力欄 -->
         <el-input
+          ref="newtaginput"
           v-if="isShowNewTagInput"
-          class="new-tag"
+          class="new-tag-input"
           v-model="tmpNewTagName"
           @blur="addTag(tmpNewTagName)"
           @keyup.native.enter="addTag(tmpNewTagName)"
@@ -40,7 +41,7 @@
         <i
           v-else
           class="add-tag el-icon-circle-plus-outline"
-          @click="isShowNewTagInput = true"
+          @click="showNewTagInput"
         />
       </div>
     </div>
@@ -72,7 +73,7 @@ export default {
     return {
       // タグ追加を表示するか否か
       isShowNewTagInput: false,
-      // 新タグ名
+      // 新規タグ名
       tmpNewTagName: '',
     }
   },
@@ -119,6 +120,16 @@ export default {
   },
   methods: {
     /**
+     * 新規タグ入力欄を表示。
+     */
+    showNewTagInput() {
+      this.isShowNewTagInput = true
+      this.$nextTick(() => {
+        this.$refs.newtaginput.focus()
+      })
+    },
+
+    /**
      * タグの追加。
      */
     addTag(name) {
@@ -157,28 +168,30 @@ export default {
   padding-left: 2%;
   width: 98%;
 }
-.tag-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
 .tag {
   display: inline-block;
-  margin: 0 4px 4px 0;
+  margin: 0 8px 4px 0;
   padding: 0 8px;
-  line-height: 32px;
+  line-height: 28px;
+  font-size: 14px;
   word-break: break-all;
   background-color: #f0ffff;
   border: 1px solid #eaeeee;
   border-radius: 2px;
 }
-.new-tag >>> .el-input__inner {
+.new-tag-input {
+  display: inline-block;
+  max-width: 200px;
+  vertical-align: top;
+  height: 0;
+}
+.new-tag-input >>> .el-input__inner {
   height: 32px;
 }
 .add-tag {
-  height: 32px;
-  line-height: 32px;
-  font-size: 16px;
   margin-left: 8px;
+  font-size: 16px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 </style>

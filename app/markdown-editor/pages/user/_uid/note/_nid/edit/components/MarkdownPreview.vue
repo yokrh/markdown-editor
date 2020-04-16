@@ -32,21 +32,23 @@ export default {
 /* Markdown style cannot not be applied with scoped */
 
 .markdown-preview {
-  margin-left: 2%;
-  width: 96%;
   word-break: break-all;
 }
 /** # hoge */
 .markdown-preview h1 {
   margin: 32px 0;
-  font-size: 32px;
+  font-size: 28px;
 }
 /** ## hoge */
 .markdown-preview h2 {
   margin: 32px 0 20px 0;
   padding: 8px 0;
   border-bottom: 1px solid #ddd;
-  font-size: 28px;
+  font-size: 24px;
+}
+/** ## hoge */
+.markdown-preview h3 {
+  font-size: 20px;
 }
 /** hoge */
 .markdown-preview p {

@@ -1,9 +1,11 @@
 <template>
   <div class="user-page">
     <!-- サイドメニュー -->
-    <div class="side-menu">
+    <div
+      v-if="isLoggedIn()"
+      class="side-menu"
+    >
       <div
-        v-if="isLoggedIn()"
         class="logout"
         @click="logout"
       >
@@ -12,20 +14,24 @@
     </div>
 
     <!-- ノート一覧 -->
-    <div class="main-content">
+    <div
+      class="main-content"
+      :class="{ 'wide': !isLoggedIn() }"
+    >
       <div class="section-title">ノート</div>
       <div class="note-container">
         <nuxt-link
           class="note"
           v-for="note in notes"
           :key="note.id"
-          :to="`/user/${$route.params.uid}/note/${note.id}/edit`"
+          :to="getNoteLink(note)"
         >
           <div class="note-thumbnail">
             <img :src="note.thumbnail" alt="">
           </div>
           <div class="note-title">{{ note.title }}</div>
           <div class="note-description">{{ note.description }}</div>
+          <div class="note-edit"><i class="el-icon-edit-outline" /></div>
         </nuxt-link>
       </div>
     </div>
@@ -34,11 +40,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Note from '../../../infra/Note'
+import ApiService from '../../../infra/api/api-service'
 
 export default {
   data() {
     return {
+      // API service
+      apiService: null,
+
+      // ノート一覧
       notes: [],
     }
   },
@@ -46,7 +56,11 @@ export default {
     ...mapGetters('user', ['isLoggedIn']),
   },
   mounted() {
-    this.notes = this.fetchNotes()
+    this.apiService = new ApiService(this)
+    this.fetchNotes()
+      .then((res) => {
+        this.notes = res
+      })
   },
   methods: {
     ...mapActions('auth', [
@@ -56,13 +70,24 @@ export default {
     /**
      * ノート一覧を取得。
      */
-    fetchNotes() {
-      const mock = [
-        new Note({ id: '0', title: 'note0', description: 'note0 desu.' }),
-        new Note({ id: '1', title: 'note1', description: 'note1 desuyo.' }),
-        new Note({ id: '2', title: 'hogehogehoge', description: 'note2 desuyo hogehoge.' }),
-      ]
-      return mock
+    async fetchNotes() {
+      const params = {
+        uid: this.$route.params.uid,
+      }
+      const res = await this.apiService.fetchUserNotes(params)
+      return res
+    },
+
+    /**
+     * ノートのリンクを取得。
+     */
+    getNoteLink(note) {
+      if (this.isLoggedIn()) {
+        // ログイン時
+        return `/user/${this.$route.params.uid}/note/${note.id}/edit/`
+      }
+
+      return `/user/${this.$route.params.uid}/note/${note.id}/`
     },
 
     /**
@@ -103,10 +128,13 @@ a {
   width: 80%;
   padding: 20px;
 }
+.main-content.wide {
+  width: 100%;
+}
 .section-title {
-  margin-top: 16px;
   font-size: 20px;
   font-weight: bold;
+  color: #555;
 }
 .note-container {
   padding: 8px;
@@ -134,6 +162,13 @@ a {
   margin-top: 8px;
   font-size: 16px;
 }
+.note-edit {
+  position: absolute;
+  top: calc(50% - 16px);
+  right: 12px;
+  line-height: 32px;
+  font-size: 16px;
+}
 @media screen and (max-width: 640px) {
   .user-page {
     flex-direction: column;
@@ -150,7 +185,7 @@ a {
   .main-content {
     order: 1;
     width: 100%;
-    padding: 0;
+    padding: 20px 0;
   }
 }
 </style>

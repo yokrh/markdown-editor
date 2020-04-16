@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      title: 'リンク',
+      title: 'リンクの追加',
       yes: '追加',
       no: 'キャンセル',
       linkName: '',

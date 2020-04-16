@@ -1,7 +1,8 @@
+import mocknotes from '../mock/SampleNotes'
 import Session from '../Session'
 import User from '../User'
-import Note from '../Note'
-import { API, HTTP_RESPONSE_STATUS_OK } from './API'
+// import Note from '../Note'
+import { /* API, */ HTTP_RESPONSE_STATUS_OK } from './API'
 
 export default class ApiService {
   constructor(params) {
@@ -60,14 +61,29 @@ export default class ApiService {
   /**
    * Get note list.
    */
-  fetchUserNotes(params) {
-    const path = API.USER_NOTE_LIST
+  fetchUserNote(params) {
+    return mocknotes[0]
+    // const path = API.USER_NOTE
 
-    const { uid } = params
-    const reqParams = { uid }
-    return this.get(path, reqParams)
-      .then(notes => notes.map(n => new Note(n)))
-      .catch((msg) => { throw msg })
+    // const { uid, nid } = params
+    // const reqParams = { uid, nid }
+    // return this.get(path, reqParams)
+    //   .then(notes => notes.map(n => new Note(n)))
+    //   .catch((msg) => { throw msg })
+  }
+
+  /**
+   * Get note list.
+   */
+  fetchUserNotes(params) {
+    return mocknotes
+    // const path = API.USER_NOTE_LIST
+
+    // const { uid } = params
+    // const reqParams = { uid }
+    // return this.get(path, reqParams)
+    //   .then(notes => notes.map(n => new Note(n)))
+    //   .catch((msg) => { throw msg })
   }
 
   /**

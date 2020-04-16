@@ -8,7 +8,7 @@
     :before-close="onNo"
   >
     <div v-if="description">{{ description }}</div>
-    <slot name="default"></slot>
+    <slot name="default" />
 
     <span slot="footer">
       <el-button type="text" size="small" @click="onNo">{{ no }}</el-button>
